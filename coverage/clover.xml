@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1625259017489" clover="3.2.0">
+  <project timestamp="1625259017489" name="All files">
+    <metrics statements="19" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="8" elements="32" coveredelements="22" complexity="0" loc="19" ncloc="19" packages="2" files="2" classes="2"/>
+    <package name="model.product">
+      <metrics statements="16" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="6"/>
+      <file name="Product.ts" path="/home/lucio/Documentos/practica/api_carritoCompras/src/domain/model/product/Product.ts">
+        <metrics statements="16" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="6"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="useCase.product">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+      <file name="ProductUseCase.ts" path="/home/lucio/Documentos/practica/api_carritoCompras/src/domain/useCase/product/ProductUseCase.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
