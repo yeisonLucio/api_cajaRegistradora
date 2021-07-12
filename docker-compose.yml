@@ -1,0 +1,24 @@
+version: "3.9"
+
+services: 
+  api:
+    container_name: api_merqueo
+    restart: always
+    build: .
+    ports: 
+      - "5000:3000"
+    links: 
+      - database
+    volumes: 
+      - .:/usr/src/app
+  
+  database:
+    container_name: db_merqueo
+    image: mongo:4.4
+    ports: 
+      - "27018:27017"
+    logging: 
+      driver: none
+    volumes: 
+      - /merqueo/db:/data/db
+
