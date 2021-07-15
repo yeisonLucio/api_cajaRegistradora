@@ -5,20 +5,17 @@ import { CajaContract } from "../dominio/contracts/CajaContract";
 import { Dinero } from "../dominio/Dinero";
 import { Movimiento } from "../../movimiento/dominio/Movimiento";
 import { DineroUseCase } from "./DineroUseCase";
+import { RepositoryContract } from "../../movimiento/dominio/contracts/RepositoryContract";
 
 export class CajaUseCase {
   private caja: CajaContract;
   private dineroUseCase: DineroUseCase;
-  private mongoMovimientoRepo: MongoMovimientoRepository;
   private repositoryMovimiento: MovientoRepository;
 
-  constructor(caja: CajaContract) {
+  constructor(caja: CajaContract, repoBD: RepositoryContract) {
     this.caja = caja;
     this.dineroUseCase = new DineroUseCase();
-    this.mongoMovimientoRepo = new MongoMovimientoRepository();
-    this.repositoryMovimiento = new MovientoRepository(
-      this.mongoMovimientoRepo
-    );
+    this.repositoryMovimiento = new MovientoRepository(repoBD);
   }
 
   /**
@@ -29,11 +26,15 @@ export class CajaUseCase {
    */
   public agregarDineroBaseCaja(cantidad: number, denominacion: number) {
     return new Promise(async (resolve, reject) => {
-      let dinero = await this.dineroUseCase.crearDinero(cantidad, denominacion);
-      let cajaBase = await this.caja.agregarDineroBase(dinero);
-      let movimiento = new Movimiento(new Date(), "entrada", "base", dinero);
-      this.repositoryMovimiento.agregarMovimiento(movimiento);
-      resolve(cajaBase);
+      try {
+        let dinero = await this.dineroUseCase.crearDinero(cantidad, denominacion);
+        let cajaBase = await this.caja.agregarDineroBase(dinero);
+        let movimiento = new Movimiento(new Date(), "entrada", "base", dinero);
+        this.repositoryMovimiento.agregarMovimiento(movimiento);
+        resolve(cajaBase);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 

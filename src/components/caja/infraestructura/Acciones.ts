@@ -5,6 +5,7 @@ import { CajaUseCase } from "../aplicacion/CajaUseCase";
 import { Caja } from "../dominio/Caja";
 import { CajaRepository } from "../dominio/CajaRepository";
 import moment from "moment";
+import { MongoMovimientoRepository } from "../../movimiento/infraestructura/MongoMovimientoRepository";
 
 const agregarBaseCaja = async(req: Request, res: Response) => {
     try {
@@ -12,7 +13,8 @@ const agregarBaseCaja = async(req: Request, res: Response) => {
         cantidad = Number(cantidad);
         denominacion = Number(denominacion);
         const repository = new CajaRepository();
-        const cajaUseCase = new CajaUseCase(repository);
+        const MovimientoRepo = new MongoMovimientoRepository();
+        const cajaUseCase = new CajaUseCase(repository, MovimientoRepo);
         let baseCaja = await cajaUseCase.agregarDineroBaseCaja(cantidad, denominacion);
 
         res.json({
@@ -29,8 +31,9 @@ const agregarBaseCaja = async(req: Request, res: Response) => {
 
 
 const vaciarCaja = async(req: Request, res: Response) => {
-    const repository = new CajaRepository();
-    const cajaUseCase = new CajaUseCase(repository);
+    const cajaRepo = new CajaRepository();
+    const MovimientoRepo = new MongoMovimientoRepository();
+    const cajaUseCase = new CajaUseCase(cajaRepo, MovimientoRepo);
     cajaUseCase.vaciarCaja();
     res.json({
         ok: true,
@@ -41,8 +44,9 @@ const vaciarCaja = async(req: Request, res: Response) => {
 const estadoActualCaja = async(req: Request, res: Response) => {
     try {
        
-        const repository = new CajaRepository();
-        const cajaUseCase = new CajaUseCase(repository);
+        const cajaRepo = new CajaRepository();
+        const MovimientoRepo = new MongoMovimientoRepository();
+        const cajaUseCase = new CajaUseCase(cajaRepo, MovimientoRepo);
         const estadoCaja =  await cajaUseCase.estadoActualCaja();
         let caja = Caja.getInstancia();
         res.json({
@@ -65,8 +69,9 @@ const realizarPagoCaja = async(req: Request, res: Response) => {
         valorCompra = Number(valorCompra);
         denominacion = Number(denominacion);
         cantidad = Number(cantidad);
-        const repository = new CajaRepository();
-        const cajaUseCase = new CajaUseCase(repository);
+        const cajaRepo = new CajaRepository();
+        const MovimientoRepo = new MongoMovimientoRepository();
+        const cajaUseCase = new CajaUseCase(cajaRepo, MovimientoRepo);
         let regreso =  await cajaUseCase.registrarPago(valorCompra, cantidad, denominacion);
         
         res.json({
@@ -87,8 +92,9 @@ const reconstruirCaja = async(req: Request, res: Response) => {
     let {fechaHoraInicio, fechaHoraFin} = req.body;
     fechaHoraInicio = new Date(fechaHoraInicio);
     fechaHoraFin = new Date(fechaHoraFin);
-    const repository = new CajaRepository();
-    const cajaUseCase = new CajaUseCase(repository);
+    const cajaRepo = new CajaRepository();
+    const MovimientoRepo = new MongoMovimientoRepository();
+    const cajaUseCase = new CajaUseCase(cajaRepo, MovimientoRepo);
     const estadoCaja: any = await cajaUseCase.reconstruirCaja(fechaHoraInicio, fechaHoraFin);
 
     res.json({

@@ -33,11 +33,37 @@ describe("Casos de uso de caja", () => {
         })
 
         const movimientoRepo = new MongoMovimientoRepository();
-        const dinero = new Dinero(10, 20000,"billete");
         const cajaRepo = new CajaRepository();
-        const cajaUseCase = new CajaUseCase(cajaRepo);
+        const cajaUseCase = new CajaUseCase(cajaRepo, movimientoRepo);
         const baseCaja = await cajaUseCase.agregarDineroBaseCaja(10, 20000);
+        const dinero = new Dinero(10, 20000,"billete");
         expect(baseCaja).toContainEqual(dinero);
 
     })
+
+    test("obtenerCajaBase", async() => {
+
+        caja.obtenerCajaBase.mockImplementation(() => {
+            return new Promise((resolve, reject) => {
+                const billete = new Dinero(10, 20000,"billete");
+                let base: Dinero[] = [billete];
+                
+                resolve(base)
+            })
+        })
+        
+        const billete = new Dinero(10, 20000,"billete");
+        const movimientoRepo = new MongoMovimientoRepository();
+        const cajaRepo = new CajaRepository();
+        const cajaUseCase = new CajaUseCase(cajaRepo, movimientoRepo);
+        const cajaBase = await cajaUseCase.getBaseCaja();
+        expect(cajaBase).toContainEqual(billete);
+
+    })
+    /* test("actualizarSaldoCaja", () => {
+
+    })
+    test("obtenerSaldoCaja", ()=> {
+
+    }) */
 })
